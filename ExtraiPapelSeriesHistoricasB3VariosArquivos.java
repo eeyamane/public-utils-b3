@@ -9,17 +9,20 @@ import java.time.LocalDate;
 public class ExtraiPapelSeriesHistoricasB3VariosArquivos {
     
     public static void main(String[] args) {
-        System.out.println("Uso: java ExtraiPapelSeriesHistoricasB3VariosArquivos <ARQUIVO-COTAHIST>AAAA.txt <PAPEIS> [NOMEARQUIVOSAIDA]");
+        System.out.println("Uso: java ExtraiPapelSeriesHistoricasB3VariosArquivos <ARQUIVO-COTAHIST>AAAA.txt <ANOINICIAL> <PAPEIS> [NOMEARQUIVOSAIDA]");
         System.out.println("Extrai de vários arquivos (onde AAAA é o ano) no formato B3 de séries históricas de cotações, uma lista com alguns papéis.");
+        System.out.println("<ANOINICIAL> é o ano inicial a partir de qual será feita a busca dos arquivos.");
         System.out.println("<PAPEIS> pode ser um ticker específico, ou pode ser uma lista de papéis separados por ; Ex: BBAS3;KNRI11;BBDC4");
         System.out.println("Gera um arquivo texto separado por ; com o nome do papel, ou com o nome passado no parâmetro NOMEARQUIVOSAIDA.");
         
         String arqB3 = null, arqOut = null, argPapel = null, papeis[] = null;
+        int anoInicial = 2012;
         try {
             arqB3 = args[0];
-            argPapel = args[1].trim();
-            if (args.length > 2) {
-                arqOut = args[2];
+            anoInicial = Integer.valueOf(args[1]);
+            argPapel = args[2].trim();
+            if (args.length > 3) {
+                arqOut = args[3];
             }
             
             String[] aux = argPapel.split(";");
@@ -52,7 +55,8 @@ public class ExtraiPapelSeriesHistoricasB3VariosArquivos {
             writer = new FileWriter(arqOut);
             writer.write("Papel;Data;PrecoAbertura;PrecoFechamento;PrecoMaximo;PrecoMinimo;PrecoMedio;PrecoMelhorOfertaCompra;PrecoMelhorOfertaVenda;NrNegocios;QtdeTotalPapeisNegociados;VolumeNegociado;\n");
             
-            for (int i = 2002; i <= LocalDate.now().getYear(); i++) {
+            for (int i = anoInicial; i <= LocalDate.now().getYear(); i++) {
+            	System.out.println("Processando ano " + i);
                 try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(arqB3 + i + ".txt")))) {                    
                     String cabecalho = reader.readLine();
                     if (cabecalho.startsWith("00COTAHIST")) {
