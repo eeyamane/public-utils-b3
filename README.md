@@ -1,11 +1,14 @@
 # public-utils-b3
-Pequenos programas utilitários em Java para filtrar dados da B3
+Pequenos programas utilitários em Java e/ou Python para filtrar dados da B3
+
+Versão Java: 
 
 Os programas foram compilados usando a versão 9 do Java, uma versão antiga que deve garantir a compatibilidade com a maioria das instalações. Como o código-fonte é compatível com versões ainda mais antigas, caso se queira, é possível compilar o código-fonte. 
 
 Só atentar para usar a opção de encoding para o padrão brasileiro (ISO-8859-1), caso não esteja já como padrão. O comando para compilar os programas (abrindo um Prompt):
 
 javac -encoding ISO-8859-1 -source 9 ExtraiPapelSeriesHistoricasB3VariosArquivos.java
+
 javac -encoding ISO-8859-1 -source 9 ExtraiPapelSeriesHistoricasB3.java
 
 Pode-se ver as instruções de uso ao chamar os programas, com o comando (no Prompt):
@@ -20,8 +23,9 @@ Argumentos inválidos.
 
 D:\>java ExtraiPapelSeriesHistoricasB3VariosArquivos
 
-Uso: java ExtraiPapelSeriesHistoricasB3VariosArquivos <ARQUIVO-COTAHIST>AAAA.txt <PAPEIS> [NOMEARQUIVOSAIDA]
+Uso: java ExtraiPapelSeriesHistoricasB3VariosArquivos <ARQUIVO-COTAHIST>AAAA.txt <ANOINICIAL> <PAPEIS> [NOMEARQUIVOSAIDA]
 Extrai de vários arquivos (onde AAAA é o ano) no formato B3 de séries históricas de cotações, uma lista com alguns papéis.
+<ANOINICIAL> é o ano inicial a partir de qual será feita a busca dos arquivos.
 <PAPEIS> pode ser um ticker específico, ou pode ser uma lista de papéis separados por ; Ex: BBAS3;KNRI11;BBDC4
 Gera um arquivo texto separado por ; com o nome do papel, ou com o nome passado no parâmetro NOMEARQUIVOSAIDA.
 Argumentos inválidos.
@@ -45,7 +49,7 @@ Exemplo 2:
 
 Para extrair os dados de cotações do fundo imobiliário KNRI11 dos últimos cinco anos, pode-se usar o comando:
 
-java ExtraiPapelSeriesHistoricasB3VariosArquivos COTAHIST_A KNRI11 CotacoesFII.csv
+java ExtraiPapelSeriesHistoricasB3VariosArquivos COTAHIST_A 2019 KNRI11 CotacoesFII.csv
 
 Sendo que você já deveria ter baixado e disponibilizado os arquivos dos anos seguintes abaixo, na mesma pasta:
 COTAHIST_A2019.TXT
@@ -56,3 +60,27 @@ COTAHIST_A2023.TXT
 COTAHIST_A2024.TXT
 
 Atualmente os dados da B3 podem ser baixados neste link, nas séries anuais: https://www.b3.com.br/pt_br/market-data-e-indices/servicos-de-dados/market-data/historico/mercado-a-vista/series-historicas/
+
+Versão Python:
+
+Foi feito em apenas um arquivo, ExtraiPapelSeriesHistoricasB3.py
+
+Para executar, basta editar o arquivo e modificar uma das últimas linhas de exemplo, tirando do comentário (#), para chamar a função que extrai de um único arquivo ou de vários arquivos.
+
+Por exemplo, para extrair os dados do Itaú (ITUB4 e ITUB3) do arquivo baixado da B3 do ano de 2023, pode-se editar a função para:
+
+extrair_cotacoes_arquivo('D:\\COTAHIST_A2023.TXT', ['ITUB3', 'ITUB4'], 'D:\\Cotacoes.csv')
+
+Assumindo que você tenha gravado o arquivo da B3 na pasta raiz do disco D:\ e queira gerar o arquivo na mesma pasta, com o nome 'Cotacoes.csv'.
+
+Se, por exemplo, quiser extrair os dados de cotações do fundo imobiliário KNRI11 dos últimos cinco anos, pode-se chamar a função:
+
+extrair_cotacoes_varios_arquivos('D:\\COTAHIST_A', 2019, 'KNRI11', 'D:\\CotacoesFII.csv')
+
+Assumindo que você já deveria ter baixado e disponibilizado os arquivos dos anos seguintes abaixo, na mesma pasta raiz do drive D:\, e queira gerar o arquivo com nome 'CotacoesFII.csv' na mesma pasta:
+COTAHIST_A2019.TXT
+COTAHIST_A2020.TXT
+COTAHIST_A2021.TXT
+COTAHIST_A2022.TXT
+COTAHIST_A2023.TXT
+COTAHIST_A2024.TXT
